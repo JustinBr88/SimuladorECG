@@ -1,0 +1,146 @@
+[
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-xxxhdpi_ecg_d.png.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-xxxhdpi/ecg_d.png"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/xml_backup_rules.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/drawable_icon_cancel.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/drawable/icon_cancel.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-mdpi_ecg_d.png.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-mdpi/ecg_d.png"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/drawable_icon_toggle_on.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/drawable/icon_toggle_on.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/drawable_rounded_button_border.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/drawable/rounded_button_border.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/drawable_rounded_button_solid.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/drawable/rounded_button_solid.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/layout_activity_main.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/drawable_icon_toggle_off.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/drawable/icon_toggle_off.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-xxhdpi_ecg_d.png.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-xxhdpi/ecg_d.png"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/color_rounded_button_text_color_selector.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/color/rounded_button_text_color_selector.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/layout_card_view_layout.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/layout/card_view_layout.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-anydpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/drawable_icon_add.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/drawable/icon_add.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/drawable_rounded_button_selector.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/drawable/rounded_button_selector.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/layout_custom_alert_dialog.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/layout/custom_alert_dialog.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-xhdpi_ecg_d.png.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-xhdpi/ecg_d.png"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/drawable_button_round_selector.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/drawable/button_round_selector.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-hdpi_ecg_d.png.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-hdpi/ecg_d.png"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/mipmap-anydpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/color_rounded_solid_button_text_color_selector.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/color/rounded_solid_button_text_color_selector.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/drawable_rounded_dialog_background.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/drawable/rounded_dialog_background.xml"
+    },
+    {
+        "merged": "com.example.ecgwidgetsviewer.app-debug-31:/drawable_switch_selector.xml.flat",
+        "source": "com.example.ecgwidgetsviewer.app-main-33:/drawable/switch_selector.xml"
+    }
+]
