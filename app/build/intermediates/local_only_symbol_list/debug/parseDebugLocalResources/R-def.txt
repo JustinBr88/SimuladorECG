@@ -45,7 +45,6 @@ id containerLayout
 id dialogMessage
 id dialogTitle
 id doneButton
-id fab
 id guide_bottom
 id guide_end
 id guide_start

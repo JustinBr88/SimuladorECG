@@ -6,20 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/activity_background"
     tools:context=".MainActivity">
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:src="@drawable/icon_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@color/canvas_2"
-        app:backgroundTint="@color/color_primary"
-        app:tint="@color/white_smoke"
-        android:contentDescription="add card"
-        app:fabSize="normal" />
+    
 
     <ScrollView
         android:id="@+id/verticalScrollView"

@@ -4,7 +4,7 @@
             "outputFile": "com.example.ecgwidgetsviewer.app-mergeDebugResources-29:/values-port/values-port.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Broris\\.gradle\\caches\\transforms-3\\b17ff0a0bf7445e0bbdc1a62ccf6b539\\transformed\\appcompat-1.6.1\\res\\values-port\\values-port.xml",
+                    "source": "C:\\Users\\Broris\\.gradle\\caches\\8.11.1\\transforms\\e834ea8700041486e44204527722faeb\\transformed\\appcompat-1.6.1\\res\\values-port\\values-port.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

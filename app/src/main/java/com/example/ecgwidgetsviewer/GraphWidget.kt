@@ -6,6 +6,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.util.Size
 import android.view.MotionEvent
@@ -16,8 +18,8 @@ class GraphWidget(context: Context?, attrs: AttributeSet?) :
     View(context, attrs) {
     private var startStop = false
     private var currentCounter = 0
-    private var storeWrapper: StoreWrapper? = null
-    //private val obtain: Obtain
+    private var simuECG: SimuECG? = null
+    private val obtain: Obtain
     private val paintLine: Paint
     private val paintLineAfter: Paint
     private val paintRectPrev: Paint
@@ -30,11 +32,20 @@ class GraphWidget(context: Context?, attrs: AttributeSet?) :
     private var shiftH = 0
     private var size: Size? = null
 
+    // Handler para repintar automáticamente
+    private val redrawHandler = Handler(Looper.getMainLooper())
+    private val redrawRunnable = object : Runnable {
+        override fun run() {
+            invalidate()
+            redrawHandler.postDelayed(this, 40) // 25 FPS
+        }
+    }
+
     init {
         canvasColor = ContextCompat.getColor(context!!,  R.color.canvas_2)
         val canvasPrevColor =
             ContextCompat.getColor(context,  R.color.canvas_1)
-        //obtain = Obtain(this, 24)
+        obtain = Obtain(this, 24)
         paintLine = Paint()
         paintLine.color = Color.BLACK
         paintLine.style = Paint.Style.STROKE
@@ -52,12 +63,14 @@ class GraphWidget(context: Context?, attrs: AttributeSet?) :
         path = Path()
     }
 
-    fun setMod(seriesLength: Int, mode: GraphMode?) {
-        storeWrapper = StoreWrapper(seriesLength, 5, mode!!)
+    fun setMode(seriesLength: Int, mode: GraphMode?) {
+        simuECG = SimuECG(seriesLength, 5, mode!!)
+        simuECG?.start()
+        redrawHandler.post(redrawRunnable) // Empieza a repintar automáticamente
     }
 
-    fun setMode(mode1: Int, mode: GraphMode?) {
-        storeWrapper!!.setMode(mode!!)
+    fun setMode(mode: GraphMode?) {
+        simuECG!!.setMode(mode!!)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -71,8 +84,8 @@ class GraphWidget(context: Context?, attrs: AttributeSet?) :
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawColor(canvasColor)
-        if (currentCounter > 0) {
-            storeWrapper!!.prepareDrawing(size!!, shiftH.toDouble())
+        if (simuECG != null) {
+            simuECG!!.prepareDrawing(size!!, shiftH.toDouble())
             drawProcedure(size, canvas)
         }
         canvas.drawBitmap(bitmap!!, 0f, 0f, null)
@@ -80,7 +93,7 @@ class GraphWidget(context: Context?, attrs: AttributeSet?) :
     }
 
     fun drawProcedure(size: Size?, canvas: Canvas) {
-        if (storeWrapper!!.mode() === GraphMode.overlay) {
+        if (simuECG!!.mode() === GraphMode.overlay) {
             drawOverlayGraph(canvas, size)
         } else {
             drawFlowingGraph(canvas)
@@ -88,41 +101,36 @@ class GraphWidget(context: Context?, attrs: AttributeSet?) :
     }
 
     fun drawFlowingGraph(canvas: Canvas) {
-        canvas.drawPath(storeWrapper!!.pathBefore!!, paintLine)
-        canvas.drawPath(storeWrapper!!.pathAfter!!, paintLine)
-        if (!storeWrapper!!.isFull()) {
+        canvas.drawPath(simuECG!!.pathBefore!!, paintLine)
+        canvas.drawPath(simuECG!!.pathAfter!!, paintLine)
+        if (!simuECG!!.isFull()) {
             canvas.drawCircle(
-                storeWrapper!!.point!!.x.toFloat(),
-                storeWrapper!!.point!!.y.toFloat(), markerRadius.toFloat(), paintCircle
+                simuECG!!.point!!.x.toFloat(),
+                simuECG!!.point!!.y.toFloat(), markerRadius.toFloat(), paintCircle
             )
         }
     }
 
     fun drawOverlayGraph(canvas: Canvas, size: Size?) {
         canvas.drawRect(
-            storeWrapper!!.point!!.x.toFloat(),
+            simuECG!!.point!!.x.toFloat(),
             0f,
             size!!.width.toFloat(),
             size.height.toFloat(),
             paintRectPrev
         )
-        canvas.drawPath(storeWrapper!!.pathBefore!!, paintLine)
-        canvas.drawPath(storeWrapper!!.pathAfter!!, paintLineAfter)
+        canvas.drawPath(simuECG!!.pathBefore!!, paintLine)
+        canvas.drawPath(simuECG!!.pathAfter!!, paintLineAfter)
         canvas.drawCircle(
-            storeWrapper!!.point!!.x.toFloat(),
-            storeWrapper!!.point!!.y.toFloat(), markerRadius.toFloat(), paintCircle
+            simuECG!!.point!!.x.toFloat(),
+            simuECG!!.point!!.y.toFloat(), markerRadius.toFloat(), paintCircle
         )
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         // Handle tap event
         if (event.action == MotionEvent.ACTION_UP) {
-            startStop = !startStop
-            if (startStop) {
-                //obtain.start()
-            } else {
-                //obtain.stop()
-            }
+            if (!startStop) start() else stop()
         }
         return true
     }
@@ -130,31 +138,29 @@ class GraphWidget(context: Context?, attrs: AttributeSet?) :
     fun stop() {
         if (startStop) {
             startStop = false
-            //obtain.stop()
+            obtain.stop()
+            simuECG?.stop()
+            redrawHandler.removeCallbacks(redrawRunnable)
         }
     }
 
     fun start() {
         if (!startStop) {
             startStop = true
-            //obtain.start()
+            obtain.start()
+            simuECG?.start()
+            redrawHandler.post(redrawRunnable)
         }
     }
 
     fun clearCanvas() {
-        canvas!!.drawColor(Color.WHITE) // Clear canvas by filling it with white color
-        invalidate() // Redraw the view
+        canvas!!.drawColor(Color.WHITE)
+        invalidate()
     }
 
     fun update(counter: Int) {
         currentCounter = counter
-        storeWrapper!!.updateBuffer(currentCounter)
-        //obtain.setState(storeWrapper!!.drawingFrequency())
-        postInvalidate() // Redraw the view
-    }
-    fun addDataPoint(value: Int) {
-        storeWrapper?.write(value)
+        obtain.setState(simuECG!!.drawingFrequency())
         postInvalidate()
     }
 }
-
