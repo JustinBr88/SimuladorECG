@@ -1,6 +1,8 @@
 package com.example.ecgwidgetsviewer
 
 import android.content.Context
+import com.example.ecgwidgetsviewer.GraphMode
+import com.example.ecgwidgetsviewer.SimuEcgMode
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -63,14 +65,21 @@ class GraphWidget(context: Context?, attrs: AttributeSet?) :
         path = Path()
     }
 
+    private fun graphModeToSimuEcgMode(graphMode: GraphMode): SimuEcgMode = when (graphMode) {
+        GraphMode.NORMAL -> SimuEcgMode.NORMAL
+        GraphMode.ALERT -> SimuEcgMode.ALERT
+        GraphMode.CRITICAL -> SimuEcgMode.CRITICAL
+        else -> SimuEcgMode.NORMAL // O el modo que elijas como default
+    }
+
     fun setMode(seriesLength: Int, mode: GraphMode?) {
-        simuECG = SimuECG(seriesLength, 5, mode!!)
+        simuECG = SimuECG(seriesLength, 5, graphModeToSimuEcgMode(mode!!))
         simuECG?.start()
         redrawHandler.post(redrawRunnable) // Empieza a repintar automáticamente
     }
 
     fun setMode(mode: GraphMode?) {
-        simuECG!!.setMode(mode!!)
+        simuECG?.mode = graphModeToSimuEcgMode(mode!!)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -93,10 +102,11 @@ class GraphWidget(context: Context?, attrs: AttributeSet?) :
     }
 
     fun drawProcedure(size: Size?, canvas: Canvas) {
-        if (simuECG!!.mode() === GraphMode.overlay) {
-            drawOverlayGraph(canvas, size)
-        } else {
+        // Si tienes un modo overlay en GraphMode, ajústalo aquí si es necesario
+        if (simuECG?.mode == SimuEcgMode.NORMAL) {
             drawFlowingGraph(canvas)
+        } else {
+            drawFlowingGraph(canvas) // O ajusta según tu lógica
         }
     }
 

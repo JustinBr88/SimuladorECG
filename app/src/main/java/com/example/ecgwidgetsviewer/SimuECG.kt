@@ -1,5 +1,5 @@
 package com.example.ecgwidgetsviewer
-
+import com.example.ecgwidgetsviewer.GraphMode
 import android.graphics.Path
 import android.graphics.Point
 import android.util.Size
@@ -7,10 +7,12 @@ import kotlinx.coroutines.*
 import kotlin.math.*
 import kotlin.random.Random
 
+enum class SimuEcgMode { NORMAL, ALERT, CRITICAL }
+
 class SimuECG(
     private val seriesLength: Int,
     private val seriesNumber: Int,
-    private var mode: GraphMode
+    var mode: SimuEcgMode = SimuEcgMode.NORMAL
 ) {
     private val freq = 24 // Hz
     private val periodMs = 1000 // ms
@@ -25,9 +27,17 @@ class SimuECG(
     var pathAfter: Path? = null
     var point: Point? = null
 
-    // --- Generación de señal ECG sintética ---
+    // --- Generación de señal ECG sintética dinámica ---
+    private fun getDynamicHeartRate(): Double {
+        return when (mode) {
+            SimuEcgMode.NORMAL -> Random.nextInt(60, 101).toDouble()
+            SimuEcgMode.ALERT -> if (Random.nextBoolean()) Random.nextInt(40, 60).toDouble() else Random.nextInt(101, 121).toDouble()
+            SimuEcgMode.CRITICAL -> if (Random.nextBoolean()) Random.nextInt(10, 26).toDouble() else Random.nextInt(150, 181).toDouble()
+        }
+    }
+
     private fun generateEcgSample(t: Double): Double {
-        val heartRate = 72.0 // bpm típico
+        val heartRate = getDynamicHeartRate()
         val period = 60.0 / heartRate
         val phase = (t % period) / period * 2 * Math.PI
 
@@ -57,15 +67,7 @@ class SimuECG(
         job?.cancel()
     }
 
-    // --- Métodos para graficar, adaptados a tu buffer ---
-
     fun drawingFrequency(): Int = drawSeriesLength
-
-    fun setMode(newMode: GraphMode) {
-        mode = newMode
-    }
-
-    fun mode(): GraphMode = mode
 
     // Métodos min/max para el buffer
     val min: Double
@@ -76,16 +78,25 @@ class SimuECG(
     fun prepareData(size: Size, shiftH: Double): List<Double> {
         val width = size.width.toDouble()
         val height = size.height.toDouble()
-        var minV = min
-        var maxV = max
+        val allData = buffer.toList().filterNotNull()
+        val n = seriesLength // solo las N muestras más recientes
+
+        val dataTemp = if (allData.size > n) {
+            allData.takeLast(n)
+        } else {
+            allData
+        }
+
+        var minV = dataTemp.minOrNull() ?: 0.0
+        var maxV = dataTemp.maxOrNull() ?: 0.0
+
         if (minV == maxV) {
             minV /= 2
             maxV += minV / 2
         }
         val dv = maxV - minV
-        step = width / buffer.toList().size.coerceAtLeast(1)
+        step = if (dataTemp.size > 1) width / (dataTemp.size - 1) else width
         val coeff = if (dv != 0.0) (height - 2 * shiftH) / dv else 1.0
-        val dataTemp = buffer.toList().filterNotNull()
         return dataTemp.map { (maxV - it) * coeff + shiftH }
     }
 
@@ -99,7 +110,6 @@ class SimuECG(
         return path
     }
 
-    // Para compatibilidad visual, se pueden mejorar pero así no da error:
     fun preparePathBefore(data: List<Double>): Path = preparePath(data)
     fun preparePathAfter(data: List<Double>): Path = Path()
     fun preparePoint(data: List<Double>): Point {
@@ -119,6 +129,5 @@ class SimuECG(
 
     private fun bufferCapacity(): Int = seriesLength * seriesNumber
 
-    // Para acceso externo al buffer (por ejemplo en Utils)
     fun buffer(): CircularBuffer<Double> = buffer
 }

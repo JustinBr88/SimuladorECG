@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         containerLayout.addView(ecgView)
 
         // Configura el modo y longitud de la señal (por ejemplo, 240 muestras, modo flowing)
-        graphWidget.setMode(240, GraphMode.flowing)
+        graphWidget.setMode(240, GraphMode.CRITICAL)
     }
 
     override fun onDestroy() {
