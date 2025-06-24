@@ -1,9 +1,12 @@
 package com.example.ecgwidgetsviewer
-import com.example.ecgwidgetsviewer.GraphMode
+
 import android.graphics.Path
 import android.graphics.Point
 import android.util.Size
 import kotlinx.coroutines.*
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 import kotlin.math.*
 import kotlin.random.Random
 
@@ -12,7 +15,9 @@ enum class SimuEcgMode { NORMAL, ALERT, CRITICAL }
 class SimuECG(
     private val seriesLength: Int,
     private val seriesNumber: Int,
-    var mode: SimuEcgMode = SimuEcgMode.NORMAL
+    var mode: SimuEcgMode = SimuEcgMode.NORMAL,
+    // Callback para actualizar el estado recibido desde la IA (opcional)
+    private val estadoCallback: ((String) -> Unit)? = null
 ) {
     private val freq = 24 // Hz
     private val periodMs = 1000 // ms
@@ -27,7 +32,6 @@ class SimuECG(
     var pathAfter: Path? = null
     var point: Point? = null
 
-    // --- Generación de señal ECG sintética dinámica ---
     private fun getDynamicHeartRate(): Double {
         return when (mode) {
             SimuEcgMode.NORMAL -> Random.nextInt(60, 101).toDouble()
@@ -38,6 +42,8 @@ class SimuECG(
 
     private fun generateEcgSample(t: Double): Double {
         val heartRate = getDynamicHeartRate()
+        // ENVÍA el BPM generado a la API cada vez que se genera
+        enviarBpmAlServidor(heartRate)
         val period = 60.0 / heartRate
         val phase = (t % period) / period * 2 * Math.PI
 
@@ -66,6 +72,8 @@ class SimuECG(
     fun stop() {
         job?.cancel()
     }
+
+    // --- Métodos para graficar, adaptados a tu buffer ---
 
     fun drawingFrequency(): Int = drawSeriesLength
 
@@ -130,4 +138,32 @@ class SimuECG(
     private fun bufferCapacity(): Int = seriesLength * seriesNumber
 
     fun buffer(): CircularBuffer<Double> = buffer
+
+    // ----------- ENVÍO DE BPM A LA API -----------
+    private fun enviarBpmAlServidor(bpm: Double) {
+        val client = OkHttpClient()
+        val json = JSONObject()
+        json.put("heart_rate", bpm)
+        val body = RequestBody.create(MediaType.get("application/json; charset=utf-8"), json.toString())
+        val request = Request.Builder()
+            .url("http://TU_IP_LOCAL:5000/predict") // Cambia TU_IP_LOCAL por la IP real donde corre Flask
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                // Puedes manejar errores aquí si lo deseas
+            }
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    if (response.isSuccessful) {
+                        val jsonRespuesta = JSONObject(response.body()!!.string())
+                        val estado = jsonRespuesta.getString("condition")
+                        // Llama al callback si está definido, para actualizar la UI
+                        estadoCallback?.invoke(estado)
+                    }
+                }
+            }
+        })
+    }
 }
